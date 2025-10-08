@@ -1,12 +1,22 @@
+import { Link } from 'react-router-dom'
 import { useAppSelector } from '@/app/hooks'
+import { PostsState, selectAllPosts } from './postsSlice'
+import { PostAuthor } from './PostAuthor'
+import { TimeAgo } from '@/components/TimeAgo'
 
 export const PostsList = () => {
-  const posts = useAppSelector(state => state.posts)
+  const posts: PostsState = useAppSelector(selectAllPosts)
+  const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
 
-  const renderedPosts = posts.map(post => (
-    <article className="post-excerpt" key={post.id}>
-      <h3>{post.title}</h3>
-      <p className="post-content">{post.content.substring(0, 100)}</p>
+  const renderedPosts = orderedPosts.map((e) => (
+    <article className="post-excerpt" key={e.id}>
+      <h3>
+        <Link to={`/posts/${e.id}`}>{e.title}</Link>
+      </h3>
+      <PostAuthor userId={e.userId} />
+      <br />
+      <TimeAgo timestamp={e.date} />
+      <p className="post-content">{e.content.substring(0, 100)}</p>
     </article>
   ))
 
