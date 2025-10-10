@@ -3,6 +3,7 @@ import { useAppSelector } from '@/app/hooks'
 import { PostsState, selectAllPosts } from './postsSlice'
 import { PostAuthor } from './PostAuthor'
 import { TimeAgo } from '@/components/TimeAgo'
+import { ReactionButtons } from './ReactionButtons'
 
 export const PostsList = () => {
   const posts: PostsState = useAppSelector(selectAllPosts)
@@ -17,6 +18,7 @@ export const PostsList = () => {
       <br />
       <TimeAgo timestamp={e.date} />
       <p className="post-content">{e.content.substring(0, 100)}</p>
+      <ReactionButtons post={e} />
     </article>
   ))
 

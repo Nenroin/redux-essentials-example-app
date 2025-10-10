@@ -1,4 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import { selectCurrentUserId } from '@/features/auth/authSlice'
+import { RootState } from '@/app/store'
+
+export const selectCurrentUser = (state: RootState) => {
+  const currentUserId = selectCurrentUserId(state)
+  return currentUserId ? selectUserById(state, currentUserId) : undefined
+}
 
 export type User = {
   id: string
@@ -19,7 +26,7 @@ const usersSlice = createSlice({
   reducers: {},
   selectors: {
     selectAllUsers: (usersState: UsersState) => usersState,
-    selectUserById: (usersState: UsersState, userId: string) => usersState.find(e => e.id === userId),
+    selectUserById: (usersState: UsersState, userId: string) => usersState.find((e) => e.id === userId),
   },
 })
 
